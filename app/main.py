@@ -34,9 +34,12 @@ def redefining_data(df: DataFrame| None) -> DataFrame:
         return pd.DataFrame()  # Handle the None case gracefully.
 
     # Map 'sex' values: 1 -> 'M', 2 -> 'F'
-    df["sex"] = df["sex"].map({1: "M", 2: "F"})
+
+    df.loc[:, "sex"] = df.loc[:, "sex"].astype(str).map({1: "M", 2: "F"})
+    #df["sex"] = df["sex"].map({1: "M", 2: "F"})
     # Convert 'age' from days to years
-    df["age"] = df["age"].apply(lambda x: x // 365)
+    #df["age"] = df["age"].apply(lambda x: x // 365)
+    df.loc[:, "age"] = df.loc[:, "age"].apply(lambda x: x // 365)
 
     return df
 
@@ -71,7 +74,7 @@ def main():
     df_normalized = normalize_data(df)
     df_redefined = redefining_data(df_normalized)
     df = rename_columns(df_redefined)
-    save_to_csv(df_redefined,path_to_result_data)
+    save_to_csv(df,path_to_result_data)
 
 if __name__ == "__main__":
     main()
